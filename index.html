@@ -2,9 +2,16 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Port-Container</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; background: #fff; color: #000; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background: #fff;
+      color: #000;
+    }
     .hidden { display: none; }
     .area-box {
       padding: 15px;
@@ -21,14 +28,24 @@
       color: #fff;
       border: none;
       border-radius: 4px;
+      width: 100%;
+      max-width: 300px;
     }
-    label { display: block; margin-top: 10px; }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
     select, input {
-      width: 200px;
-      padding: 5px;
+      width: 100%;
+      max-width: 300px;
+      padding: 8px;
       margin-top: 5px;
+      font-size: 16px;
     }
-    .error { color: red; margin-top: 10px; }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -37,9 +54,9 @@
   <div id="tela1">
     <h2>Port-Container – Login</h2>
     <label>Usuário (número):</label>
-    <input type="text" id="loginUser">
+    <input type="text" id="loginUser" inputmode="numeric">
     <label>Senha (número):</label>
-    <input type="password" id="loginPass">
+    <input type="password" id="loginPass" inputmode="numeric">
     <button onclick="fazerLogin()">Entrar</button>
     <div id="loginMsg" class="error"></div>
   </div>
@@ -108,26 +125,26 @@
 
 <script>
 // Preenche selects de letra e número
-for(let i=65;i<=90;i++){
+for(let i=65; i<=90; i++){
   const opt = document.createElement('option');
   opt.value = String.fromCharCode(i);
   opt.text = String.fromCharCode(i);
   document.getElementById('formLetra').appendChild(opt);
 }
-for(let i=1;i<=99;i++){
+for(let i=1; i<=99; i++){
   const opt = document.createElement('option');
   opt.value = i;
   opt.text = i;
   document.getElementById('formNumero').appendChild(opt);
 }
 
-// Funções
+// Funções de troca de tela
 function mostrarTela(n){
   document.getElementById('tela1').classList.add('hidden');
   document.getElementById('tela2').classList.add('hidden');
   document.getElementById('tela3').classList.add('hidden');
   document.getElementById('tela'+n).classList.remove('hidden');
-  if(n===2) carregarDados();
+  if(n === 2) carregarDados();
 }
 
 function logout(){
@@ -139,10 +156,10 @@ function fazerLogin(){
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value.trim();
   const msg = document.getElementById('loginMsg');
-  if(!u||!p){ msg.textContent='Preencha os dois campos.'; return; }
-  if(u!==p){ msg.textContent='Usuário e senha devem ser iguais.'; return; }
+  if(!u || !p){ msg.textContent='Preencha os dois campos.'; return; }
+  if(u !== p){ msg.textContent='Usuário e senha devem ser iguais.'; return; }
   if(!/^\d+$/.test(u)){ msg.textContent='Use apenas números.'; return; }
-  msg.textContent='';
+  msg.textContent = '';
   localStorage.setItem('usuarioLogado', u);
   mostrarTela(2);
 }
@@ -162,7 +179,7 @@ function definir(){
 }
 
 function carregarDados(){
-  ['embarque','descarga','interno'].forEach(tipo=>{
+  ['embarque','descarga','interno'].forEach(tipo => {
     const dados = JSON.parse(localStorage.getItem(tipo));
     if(dados){
       document.getElementById('letra'+capital(tipo)).textContent = dados.letra;
@@ -174,7 +191,7 @@ function carregarDados(){
   });
 }
 
-function capital(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function capital(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
 
 mostrarTela(1);
 </script>
